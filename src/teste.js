@@ -1,15 +1,13 @@
-const bcrypt = require('bcrypt')
-const salt = 8
-const text = '12345'
-const outherText = 'BEFIT'
+var jwt = require('jsonwebtoken');
 
 
-
-async function main(text, salt){
-    const textHash = await bcrypt.hash(text, salt)
-    console.log(textHash)
-    const compare = await bcrypt.compare('12345', '$2b$08$2vtlqvMO0tY27lhopjmkTenn0dqyP7cUN/nJuYQFdzwhGAPU3XmwW')
-    console.log(compare);
+async function main(){
+    const token = jwt.sign({ email: 'luan@email.com', password: '12345' }, '123456789', {
+        expiresIn: '999d'
+    });
+    console.log(token);
+    const data = jwt.verify(token, '123456789')
+    console.log(data);
 }
 
-main(text, salt)
+main()

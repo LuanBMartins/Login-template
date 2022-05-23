@@ -9,10 +9,10 @@ module.exports = class AuthUseCase {
 
     async autenticate(email, password){
         if(!email){
-            throw new ErrorGeneric(400, 'insvalid user!')
+            throw new ErrorGeneric(400, 'invalid user!')
         }
         if(!password){
-            throw new ErrorGeneric(400, 'insvalid password!')
+            throw new ErrorGeneric(400, 'invalid password!')
         }
 
         const user = await this.userRepository.load(email)
@@ -21,13 +21,9 @@ module.exports = class AuthUseCase {
         }
 
         const authValid = await this.encrypter.compare(password, user.password)
-        console.log(authValid, password, user.password);
-        const valid = user && authValid
 
-
-
-        if(valid){
-            return true
+        if(user && authValid){
+            return this.tokenGenerator.generate(user)
         }
 
         return false
