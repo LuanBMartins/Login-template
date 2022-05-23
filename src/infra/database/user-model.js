@@ -9,7 +9,7 @@ const user = connection.define('usuario', {
 		unique: true,
 	},
     password: {
-		type: DataTypes.CHAR(30),
+		type: DataTypes.TEXT,
 		allowNull: false,
 	},
 }, {
@@ -21,5 +21,7 @@ const user = connection.define('usuario', {
 		},
 	},
 })
+
+user.sync()
 
 module.exports = user

@@ -15,10 +15,16 @@ module.exports = class AuthUseCase {
             throw new ErrorGeneric(400, 'insvalid password!')
         }
 
-        const userRep = await this.userRepository.load(email)
-        console.log(userRep);
+        const user = await this.userRepository.load(email)
+        if(!user){
+            throw new ErrorGeneric(401, 'Unauthorized')
+        }
 
-        const valid = userRep
+        const authValid = await this.encrypter.compare(password, user.password)
+        console.log(authValid, password, user.password);
+        const valid = user && authValid
+
+
 
         if(valid){
             return true
