@@ -8,15 +8,15 @@ module.exports = class LoginRoute {
     async route(httpRequest){
         try {    
             
-            const {user, password} = httpRequest.body       
-            if(!user){
+            const {email, password} = httpRequest.body       
+            if(!email){
                 throw new ErrorGeneric(400, 'Invalid user field!')
             }
             if(!password){
                 throw new ErrorGeneric(400, 'Invalid password field!')
             }
 
-            const accessToken = await this.authUseCase.autenticate(user, password)
+            const accessToken = await this.authUseCase.autenticate(email, password)
 
             if(!accessToken){
                 return {
